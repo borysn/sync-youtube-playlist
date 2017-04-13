@@ -4,7 +4,8 @@
   "description": "sync youtube playlist using youtube-dl",
   "main": "index.js",
   "scripts": {
-    "test": "./index.js ~/Music/youtube/somethingelse/ https://www.youtube.com/playlist?list=PLnGgRYDndyEREz4liQG8MHohkeTLgDnzE",
+    "somethingelse": "./index.js ~/Music/youtube/somethingelse/ https://www.youtube.com/playlist?list=PLnGgRYDndyEREz4liQG8MHohkeTLgDnzE",
+    "bobyourhead": "./index.js ~/Music/youtube/bobyourhead https://www.youtube.com/playlist?list=PLnGgRYDndyESIpDt-193D1tqD8zVqcImq",
     "script": "./index.js"
   },
   "keywords": [
