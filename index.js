@@ -27,7 +27,7 @@ const exec = require('child_process').exec;
 
   // authenticate youtube api
   youtube.authenticate({type: 'key', key:'AIzaSyDkXcuOas9q8N3LAuhBSa5XHGTmEJhSoCY'});
-  
+
   /**
    * parseARgs
    *
@@ -54,7 +54,7 @@ const exec = require('child_process').exec;
       if (err) {
         console.log(err);
         console.log(chalk.red('Cannot read mp3 file names.'));
-      } else { 
+      } else {
         result.forEach((file) => { files.push(file); });
       }
     });
@@ -82,7 +82,7 @@ const exec = require('child_process').exec;
    *
    */
   function getMp3YoutubeIdsFromFileName() {
-    return getMp3FileNames().map((song) => { return song.slice(song.length-15, song.length-4); }); 
+    return getMp3FileNames().map((song) => { return song.slice(song.length-15, song.length-4); });
   }
 
   /**
@@ -94,10 +94,10 @@ const exec = require('child_process').exec;
   function validateArgs() {
     // check mp3 dir access
     fs.access(mp3Dir, fs.constants.R_OK | fs.constants.W_OK, (err) => {
-      if (err) { 
+      if (err) {
         console.log(chalk.red(err));
         console.log(chalk.red('Check directory path.'));
-        process.exit(1); 
+        process.exit(1);
       }
     });
 
@@ -105,7 +105,7 @@ const exec = require('child_process').exec;
     youtube.playlists.list({
         part: 'snippet',
         contentDetails: 0,
-        id: playlistId, 
+        id: playlistId,
         player: 0,
         snippet: 2,
         status: 2
@@ -121,7 +121,6 @@ const exec = require('child_process').exec;
         }
 
         // check directory name matches playlistname
-        
         // get playlist name
         const playlistName = result.items[0].snippet.title;
         const dirs = mp3Dir.split('/');
@@ -137,9 +136,8 @@ const exec = require('child_process').exec;
           process.exit(1);
         }
     });
-    
   }
- 
+
   /**
    * getArgs
    *
@@ -149,7 +147,7 @@ const exec = require('child_process').exec;
    */
   function getArgs() {
     // attempt to parse and validate args if they are empty
-    if (mp3Dir === '' || playlistId === '') { 
+    if (mp3Dir === '' || playlistId === '') {
       parseArgs();
       readDir();
       validateArgs();
@@ -168,7 +166,7 @@ const exec = require('child_process').exec;
         pageToken: pgToken,
         maxResults: 50,
         playlistId: playlistId
-    }, 
+    },
     (err, result) => {
       // check for error in request
       if (err) {
@@ -220,7 +218,7 @@ const exec = require('child_process').exec;
   function getSongsToDelete() {
     const playlistIds = songs.map((song) => { return song.resourceId.videoId; });
     getMp3YoutubeIdsFromFileName()
-      .forEach((mp3Id) => { 
+      .forEach((mp3Id) => {
         if (!playlistIds.includes(mp3Id)) {
           deleteQueue.push(mp3Id);
         }
@@ -235,7 +233,7 @@ const exec = require('child_process').exec;
    * process deleteQueue
    */
   function processDeleteQueue() {
-    deleteQueue.forEach((id) => { 
+    deleteQueue.forEach((id) => {
       const matches = files.filter((file) => { return file.includes(id); });
       if (matches.length === 1) {
         // delete file
@@ -244,7 +242,7 @@ const exec = require('child_process').exec;
           if (err) {
             console.log(err);
             console.log(chalk.red('Cannnot delete file.'));
-          } 
+          }
         });
       }
     });
@@ -256,7 +254,7 @@ const exec = require('child_process').exec;
    * process download queue
    */
   function processDownloadQueue() {
-    downloadQueue.forEach((song) => { 
+    downloadQueue.forEach((song) => {
       // download song
       const path = mp3Dir.endsWith('/') ? mp3Dir : mp3Dir + '/';
       const url = `http://www.youtube.com/watch?v=${song.resourceId.videoId}`;
@@ -265,7 +263,7 @@ const exec = require('child_process').exec;
         if (err) {
           console.log(err);
           console.log(chalk.red('Cannot download audio.'));
-        } 
+        }
       });
     });
   }
