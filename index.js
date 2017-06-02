@@ -15,7 +15,7 @@ const youtube = require('youtube-api');
 const url = require('url');
 const stringSimilarity = require('string-similarity');
 const exec = require('child_process').exec;
-const mkdirp = require('node-mkdirp');
+const mkdirp = require('mkdirp').sync;
 
 // script
 (function() {
