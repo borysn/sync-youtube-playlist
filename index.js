@@ -15,6 +15,7 @@ const youtube = require('youtube-api');
 const url = require('url');
 const stringSimilarity = require('string-similarity');
 const exec = require('child_process').exec;
+const mkdirp = require('node-mkdirp');
 
 // script
 (function() {
@@ -94,7 +95,11 @@ const exec = require('child_process').exec;
   function validateArgs() {
     // check mp3 dir exists
     if (!fs.existsSync(mp3Dir)) {
-      fs.mkdirSync(mp3Dir)
+      mkdirp(mp3Dir, (err) => {
+        if (err) {
+          console.log(`could not create mp3 directory: ${mp3Dir}`);
+        }
+      });
     }
 
     // check mp3 dir access
