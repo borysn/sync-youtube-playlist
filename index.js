@@ -92,8 +92,13 @@ const exec = require('child_process').exec;
    *
    */
   function validateArgs() {
+    // check mp3 dir exists
+    if (!fs.existsSync(mp3Dir)) {
+      fs.mkdirSync(mp3Dir)
+    }
+
     // check mp3 dir access
-    fs.access(mp3Dir, fs.constants.R_OK | fs.constants.W_OK, (err) => {
+    fs.accessSync(mp3Dir, fs.constants.R_OK | fs.constants.W_OK, (err) => {
       if (err) {
         console.log(chalk.red(err));
         console.log(chalk.red('Check directory path.'));
@@ -261,6 +266,11 @@ const exec = require('child_process').exec;
       const dl = `youtube-dl -o '${path}%(title)s-%(id)s.%(ext)s' -x --audio-format mp3 --audio-quality 0 ${url}`;
       exec(dl, (err, stdout, stderr) => {
         if (err) {
+          console.log("************");
+          console.log(song);
+          console.log(url);
+          console.log(dl);
+          console.log("************");
           console.log(err);
           console.log(chalk.red('Cannot download audio.'));
         }
